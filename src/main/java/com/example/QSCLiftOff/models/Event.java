@@ -11,9 +11,7 @@ public class Event extends AbstractEvent {
 
     private String description;
 
-  public Event(){
-      super();
-  }
+  public Event(){}
 
     public String getDate() {
         return date;
