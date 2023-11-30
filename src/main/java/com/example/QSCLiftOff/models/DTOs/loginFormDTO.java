@@ -1,2 +1,6 @@
-package com.example.QSCLiftOff.models.DTOs;public class loginFormDTO {
+package com.example.QSCLiftOff.models.DTOs;
+
+public class loginFormDTO {
+
+
 }

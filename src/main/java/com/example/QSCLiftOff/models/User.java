@@ -1,6 +1,8 @@
 package com.example.QSCLiftOff.models;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,39 +12,37 @@ public class User {
     @Id
     @GeneratedValue
     private int id;
-
-    private String name;
-
-    private String password;
+@NotNull
+    private String username;
+@NotNull
+    private String pwhash;
 
     public User(){}
 
-    public User(String name, String password){
-        this.name = name; this.password = password;
+    public User(String username, String password){
+        this.username = username; this.pwhash = encoder.encode(password) ;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getPwhash() {
+        return pwhash;
     }
+
+    public Boolean isMatchingPassword(String password){
+        return encoder.matches(password,pwhash);
+}
 
     @Override
     public String toString() {
-        return name;
+        return username;
     }
 }
