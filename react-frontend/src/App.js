@@ -1,10 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import HomePageComponent from './components/HomePageComponent';
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  console.log(HomePageComponent);
   return (
     <HomePageComponent/>
   );
