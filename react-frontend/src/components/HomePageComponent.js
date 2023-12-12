@@ -16,7 +16,7 @@ function HomePageComponent() {
             <section className='CalendarPreview'>
                 <p>Calendar place holder</p>
                 <Container>
-
+                    
                     <Row>
                         <Col>1 of 2</Col>
                         <Col>2 of 2</Col>
