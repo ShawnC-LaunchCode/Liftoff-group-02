@@ -12,6 +12,7 @@ import org.springframework.http.RequestEntity;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -36,13 +37,35 @@ public class UserController {
 
 @PostMapping("/createResource")
     public ResponseEntity<String> createResource(@RequestBody  loginFormDTO data) {
-        User user = new User();
-        // ...
+        User user = new User(data.getUsername(), data.getPassword());
+        userRepository.save(user);
+    
 
         return new ResponseEntity<>("Resource created successfully", HttpStatus.CREATED);
     }
+
+    
+@PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody loginFormDTO data) {
+        // Validate login credentials and generate authentication token
+        Optional<User> userOptional = userRepository.findByUsername(data.getUsername());
+        User user;
+        if (userOptional.isPresent()) {
+            // User exists, proceed with validation
+            user = userOptional.get();
+        }else{
+        return new ResponseEntity<>("Not successful", HttpStatus.OK); 
+        }
+
+        if (user.isMatchingPassword(data.getPassword())){
+        return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {return new ResponseEntity<>("Not successful", HttpStatus.OK);
+
+        }
+    }
+
 @GetMapping("/{username}")
-    public User getSpecificUser(@PathVariable String username){
+    public Optional<User> getSpecificUser(@PathVariable String username){
     return userRepository.findByUsername(username);
 }
 }
