@@ -10,26 +10,32 @@ import {
 import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import RegistrationPage from "./pages/registration";
-
+import WeatherAPI from './components/WeatherAPI';
 
 function App() {
-return(
-<Router>
-    <Routes>
-        <Route exact path="/" element={<HomePage />}
-         />
+    return (
+        <Router>
+            <Routes>
+                <Route exact path="/" element={<HomePage />}
+                />
 
-        <Route
-         path="/login"
-         element={<LoginPage />}
-         />
+                <Route
+                    path="/login"
+                    element={<LoginPage />}
+                />
 
-         <Route
-          path="/register"
-          element={<RegistrationPage />}
-          />
-    </Routes>
-</Router>
-)
+                <Route
+                    path="/register"
+                    element={<RegistrationPage />}
+                />
+
+                <Route
+                    //temp weather path
+                    path='/weather'
+                    element={<WeatherAPI />}
+                />
+            </Routes>
+        </Router>
+    )
 }
 export default App;
