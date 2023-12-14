@@ -23,6 +23,7 @@ export default function WeatherAPI() {
 
     return (
         <div className='weather-design'>
+            
             <div className='search'>
                 <input className='input'
                     type='text'
