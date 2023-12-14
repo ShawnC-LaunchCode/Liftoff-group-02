@@ -1,35 +1,38 @@
 import axios from 'axios';
+import React, { useState } from 'react';
 
 function LoginPage(){
-const apiUrl = 'http://localhost:8080/api/users';
 
-// Making a GET request
-axios.get(apiUrl)
-  .then(response => {
-    // Handle the successful response
-    console.log('Response:', response.data);
-  })
-  .catch(error => {
-    // Handle errors
-    console.error('Error:', error.message);
+  const [loginData, setLoginData] = useState({
+    username: '',
+    password: '',
   });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/login', loginData);
+      console.log(response.data);  // Handle success response
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <label>Username:</label>
+      <input type="text" name="username" value={loginData.username} onChange={handleInputChange} />
+
+      <label>Password:</label>
+      <input type="password" name="password" value={loginData.password} onChange={handleInputChange} />
+
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
-}
+};
 
 export default LoginPage;
