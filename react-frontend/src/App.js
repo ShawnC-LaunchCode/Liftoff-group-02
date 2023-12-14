@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import axios from 'axios';
 import {
     BrowserRouter as Router,
@@ -13,11 +11,13 @@ import RegistrationPage from "./pages/registration";
 import WeatherAPI from './components/WeatherAPI';
 
 function App() {
+
     return (
         <Router>
             <Routes>
-                <Route exact path="/" element={<HomePage />}
-                />
+                <Route exact path="/" 
+                element={<HomePage />}
+            />
 
                 <Route
                     path="/login"
@@ -38,4 +38,5 @@ function App() {
         </Router>
     )
 }
+
 export default App;
