@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import './WeatherAPI.css';
-
+import Alert from 'react-bootstrap/Alert'
 
 export default function WeatherAPI() {
 
@@ -9,22 +9,37 @@ export default function WeatherAPI() {
     const [location, setLocation] = useState('');
     const OPEN_WEATHER_API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
     const OPEN_WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${OPEN_WEATHER_API_KEY}`;
+    const [errorMsg, setErrorMsg] = useState('')
 
     const searchlocation = (event) => {
         if (event.key === 'Enter') {
             axios.get(OPEN_WEATHER_API_URL).then((response) => {
+                setErrorMsg('')
                 setData(response.data);
                 console.log(response.data);
-            })
-            setLocation('')
+            }).catch(weatherErrorHandler);
+
+            // .catch((error) => {
+            //     console.log(error.response.data);
+            //     console.log(error.response.data.message);
+            // })
+            setLocation('');
         }
+    }
+
+    function weatherErrorHandler(error) {
+        console.log(error.response.data);
+        console.log(error.response.data.cod);
+        setData({});
+        setErrorMsg(error.response.data.message);
     }
 
 
     return (
         <div className='weather-design'>
-            
+
             <div className='search'>
+
                 <input className='input'
                     type='text'
                     value={location}
@@ -33,9 +48,12 @@ export default function WeatherAPI() {
                     onKeyDown={searchlocation}
                 />
 
+                <div>
+                    <h2>{errorMsg}</h2>
+                </div>
+
             </div>
             <div className='container'>
-
                 <div className='top'>
                     <p>{data.name}</p>
                 </div>

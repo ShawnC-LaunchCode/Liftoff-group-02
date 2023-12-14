@@ -9,15 +9,15 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import WeatherAPI from '../components/WeatherAPI';
 
 
-
-function homePage(){
+function HomePage() {
 
   const locales = {
     "en-US": require("date-fns/locale/en-US")
   }
-  
+
   const localizer = dateFnsLocalizer({
     format,
     parse,
@@ -25,7 +25,7 @@ function homePage(){
     getDay,
     locales
   })
-  
+
   const events = [
     {
       title: "Meeting",
@@ -45,41 +45,46 @@ function homePage(){
     },
   ]
 
-  const [newEvent, setNewEvent] = useState({title: "", start: "", end:""})
-    const [allEvents, setAllEvents] = useState(events)
+  const [newEvent, setNewEvent] = useState({ title: "", start: "", end: "" })
+  const [allEvents, setAllEvents] = useState(events)
 
-    function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent])
-    }
+  function handleAddEvent() {
+    setAllEvents([...allEvents, newEvent])
+  }
 
   return (
     <div className="App">
-              <h1>EventFlow</h1>
-              <h2>Add New Event</h2>
+      <h1>EventFlow</h1>
 
-              <div>
-                <input type="text" placeholder="Add Title" style={{width:"20%", marginRight: "10px"}}
-                value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
+      <div>
+        <h3>Input your city for the weather today!</h3>
+        <WeatherAPI />
+      </div>
 
-                <DatePicker placeholderText="Start Date" style={{marginRight: "10px"}}
-                selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})} />
+      <h2>Add New Event</h2>
+      <div>
+        <input type="text" placeholder="Add Title" style={{ width: "20%", marginRight: "10px" }}
+          value={newEvent.title} onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })} />
 
-                <DatePicker placeholderText="End Date" style={{marginRight: "10px"}}
-                selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})} />
+        <DatePicker placeholderText="Start Date" style={{ marginRight: "10px" }}
+          selected={newEvent.start} onChange={(start) => setNewEvent({ ...newEvent, start })} />
 
-                <button style={{marginTop: "10px"}} onClick={handleAddEvent}>Add Event</button>
-              </div>
+        <DatePicker placeholderText="End Date" style={{ marginRight: "10px" }}
+          selected={newEvent.end} onChange={(end) => setNewEvent({ ...newEvent, end })} />
 
-              <Calendar
-                localizer={localizer}
-                events={allEvents}
-                startAccessor="start"
-                endAccessor="end"
-                style={{height: 500, margin: "50px"}}
-              />
+        <button style={{ marginTop: "10px" }} onClick={handleAddEvent}>Add Event</button>
+      </div>
 
-        </div>
+      <Calendar
+        localizer={localizer}
+        events={allEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500, margin: "50px" }}
+      />
+
+    </div>
   );
 }
 
-export default homePage;
+export default HomePage;
