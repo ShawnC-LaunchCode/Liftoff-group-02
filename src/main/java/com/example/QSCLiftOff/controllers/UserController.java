@@ -37,11 +37,16 @@ public class UserController {
 
 @PostMapping("/createResource")
     public ResponseEntity<String> createResource(@RequestBody  loginFormDTO data) {
-        User user = new User(data.getUsername(), data.getPassword());
-        userRepository.save(user);
-    
+        Optional<User> userOptional = userRepository.findByUsername(data.getUsername());
+        User user;
 
+        if (userOptional.isPresent()){
+            return new ResponseEntity<>("Username already exists", HttpStatus.OK);
+        }else{
+        user = new User(data.getUsername(), data.getPassword());
+        userRepository.save(user);
         return new ResponseEntity<>("Resource created successfully", HttpStatus.CREATED);
+        }
     }
 
     

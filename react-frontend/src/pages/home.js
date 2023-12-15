@@ -12,7 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 
-function homePage(){
+function HomePage(){
 
   const locales = {
     "en-US": require("date-fns/locale/en-US")
@@ -82,4 +82,4 @@ function homePage(){
   );
 }
 
-export default homePage;
+export default HomePage;
