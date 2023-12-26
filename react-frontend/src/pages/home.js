@@ -6,7 +6,7 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -26,38 +26,39 @@ function HomePage(){
     locales
   })
   
-  const events = [
-    {
-      title: "Meeting",
-      allDay: true,
-      start: new Date(2023, 11, 7),
-      end: new Date(2023, 11, 10)
-    },
-    {
-      title: "Vacation",
-      start: new Date(2023, 11, 20),
-      end: new Date(2023, 11, 23)
-    },
-    {
-      title: "Conference",
-      start: new Date(2023, 11, 0),
-      end: new Date(2023, 11, 0)
-    },
-  ];
 
   const loadEvents = async() => {
-    try{
-      const response = await axios.get('http://localhost:8080/api/events')
-
-      console.log('Data received:', response.data);
-    } catch(error) {
-      console.error('Error loading events:', error);
-
+    try {
+      const response = await axios.get('http://localhost:8080/api/events');
+      setAllEvents(response.data);
+    } catch (error) {
+      setError(error.message);
     }
-  }
+  };
+
+
 
   const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay:true});
-    const [allEvents, setAllEvents] = useState(events);
+    const [allEvents, setAllEvents] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const fetchEvents = async () => {
+        try {
+          const response = await axios.get('http://localhost:8080/api/events');
+          setAllEvents(response.data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchEvents();
+    }, []);
+
+
 
     const handleAddEvent = async() => {
       try {
@@ -68,7 +69,7 @@ function HomePage(){
         console.error('Error creating event:', error);
       }
 
-        setAllEvents([...allEvents, newEvent])
+        loadEvents();
     };
 
 
@@ -97,7 +98,7 @@ function HomePage(){
               <Calendar
                 localizer={localizer}
                 events={allEvents}
-                startAccessor="start"
+                startAccessor={(event) => { return new Date(event.start) }}
                 endAccessor="end"
                 style={{height: 500, margin: "50px"}}
               />
