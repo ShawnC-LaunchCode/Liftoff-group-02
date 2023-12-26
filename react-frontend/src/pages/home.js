@@ -43,14 +43,34 @@ function HomePage(){
       start: new Date(2023, 11, 0),
       end: new Date(2023, 11, 0)
     },
-  ]
+  ];
 
-  const [newEvent, setNewEvent] = useState({title: "", start: "", end:""})
-    const [allEvents, setAllEvents] = useState(events)
+  const loadEvents = async() => {
+    try{
+      const response = await axios.get('http://localhost:8080/api/events')
 
-    function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent])
+      console.log('Data received:', response.data);
+    } catch(error) {
+      console.error('Error loading events:', error);
+
     }
+  }
+
+  const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay:true});
+    const [allEvents, setAllEvents] = useState(events);
+
+    const handleAddEvent = async() => {
+      try {
+        const response = await axios.post('http://localhost:8080/api/createEvent', newEvent);
+        console.log(response.data);  // Handle success response
+        
+      } catch (error) {
+        console.error('Error creating event:', error);
+      }
+
+        setAllEvents([...allEvents, newEvent])
+    };
+
 
   return (
     <div className="App">
@@ -66,6 +86,10 @@ function HomePage(){
 
                 <DatePicker placeholderText="End Date" style={{marginRight: "10px"}}
                 selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})} />
+
+                <label style ={{marginRight: "10px"}}>All Day?</label>
+
+                <input type = "checkbox" id="allDayCheck" name="allDayCheck" style={{marginRight: "10px"}} value={newEvent.allDay} onChange={async (e) => setNewEvent({...newEvent, allDay: document.getElementById("allDayCheck").checked })} />
 
                 <button style={{marginTop: "10px"}} onClick={handleAddEvent}>Add Event</button>
               </div>

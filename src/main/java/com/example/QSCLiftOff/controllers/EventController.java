@@ -26,4 +26,12 @@ public class EventController {
     public Iterable<Event> getAllEvents(){
         return eventRepository.findAll();
 }
+
+    @PostMapping("/createEvent")
+    public ResponseEntity<String> createEvent(@RequestBody Event data){
+
+        Event event = new Event(data.getTitle(), data.getStart(), data.getEnd(), data.getAllDay() );
+        eventRepository.save(event);
+        return new ResponseEntity<>("Resource created successfully", HttpStatus.CREATED);
+    }
 }

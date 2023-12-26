@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EventRepository extends CrudRepository<Event, Integer> {
     Optional<Event> findByTitle(String title);
+    Optional<Event> findByStart(Date start);
 }
