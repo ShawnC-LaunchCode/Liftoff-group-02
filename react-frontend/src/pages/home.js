@@ -1,5 +1,6 @@
 import axios from 'axios';
-
+import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -43,10 +44,12 @@ function HomePage(){
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
+
     useEffect(() => {
       const fetchEvents = async () => {
         try {
           const response = await axios.get('http://localhost:8080/api/events');
+          
           setAllEvents(response.data);
         } catch (error) {
           setError(error.message);
@@ -81,12 +84,11 @@ function HomePage(){
               <div>
                 <input type="text" placeholder="Add Title" style={{width:"20%", marginRight: "10px"}}
                 value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
-
-                <DatePicker placeholderText="Start Date" style={{marginRight: "10px"}}
-                selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})} />
-
-                <DatePicker placeholderText="End Date" style={{marginRight: "10px"}}
-                selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})} />
+                
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker label="Start Date" selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
+                    <DateTimePicker label="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
+                </LocalizationProvider>
 
                 <label style ={{marginRight: "10px"}}>All Day?</label>
 
@@ -98,7 +100,7 @@ function HomePage(){
               <Calendar
                 localizer={localizer}
                 events={allEvents}
-                startAccessor={(event) => { return new Date(event.start) }}
+                startAccessor="start"
                 endAccessor="end"
                 style={{height: 500, margin: "50px"}}
               />
