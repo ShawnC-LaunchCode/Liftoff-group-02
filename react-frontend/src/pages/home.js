@@ -1,6 +1,4 @@
 import Modal from '../components/Modal.js';
-import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -68,8 +66,6 @@ function HomePage(){
   return (
     <div className="App">
               <h1>EventFlow</h1>
-              <h2>Add New Event</h2>
-
               <div>
                 <button onClick={openModal}>Open Modal</button>
 
