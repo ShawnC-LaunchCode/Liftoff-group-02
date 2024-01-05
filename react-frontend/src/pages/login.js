@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage(){
-
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
@@ -17,6 +18,9 @@ function LoginPage(){
     try {
       const response = await axios.post('http://localhost:8080/api/login', loginData);
       console.log(response.data);  // Handle success response
+      if(response.data === "Login successful"){
+        navigate('/');
+      }
     } catch (error) {
       console.error('Error logging in:', error);
     }
