@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    font-size: 25px;
+}
+
+h1 {
+    font-size: 30;
+}
+
+.weather-design {
+    align-items: center;
+    width: 200px;
+    height: auto;
+    position: relative;
+    background-color: rgb(2, 62, 105);
+    color: #fff;
+}
+
+.container {
+    margin: auto;
+    padding: 0 1rem;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.search {
+    text-align: left;
+    padding: 10px;
+}
+
+.input {
+    padding: 5px 6px;
+    font-size: 10;
+    border-radius: 25px;
+    
+}

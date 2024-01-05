@@ -7,6 +7,7 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 
 
@@ -38,7 +39,7 @@ function HomePage(){
   const locales = {
     "en-US": require("date-fns/locale/en-US")
   }
-  
+
   const localizer = dateFnsLocalizer({
     format,
     parse,
@@ -66,6 +67,10 @@ function HomePage(){
   return (
     <div className="App">
               <h1>EventFlow</h1>
+    <div>
+        <h3>Input your city for the weather today!</h3>
+        <WeatherAPI />
+    </div>
               <div>
                 <button onClick={openModal}>Open Modal</button>
 
@@ -73,15 +78,15 @@ function HomePage(){
 
               </div>
 
-              <Calendar
-                localizer={localizer}
-                events={allEvents}
-                startAccessor="start"
-                endAccessor="end"
-                style={{height: 500, margin: "50px"}}
-              />
+      <Calendar
+        localizer={localizer}
+        events={allEvents}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: 500, margin: "50px" }}
+      />
 
-        </div>
+    </div>
   );
 }
 
