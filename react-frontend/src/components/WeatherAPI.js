@@ -8,7 +8,7 @@ export default function WeatherAPI() {
     const [location, setLocation] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
     const OPEN_WEATHER_API_KEY = process.env.REACT_APP_OPEN_WEATHER_API_KEY;
-    const OPEN_WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${OPEN_WEATHER_API_KEY}`;
+    const OPEN_WEATHER_API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=dd08a0981bd7ccbc7cef7495a7d12a69`;
 
 
     const searchlocation = (event) => {

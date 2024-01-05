@@ -1,4 +1,5 @@
 import Modal from '../components/Modal.js';
+import DeleteModal from '../components/DeleteModal.js';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -14,9 +15,11 @@ import axios from 'axios';
 
 function HomePage(){
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const loadEvents = async() => {
     try {
@@ -36,6 +39,21 @@ function HomePage(){
     loadEvents();
   };
 
+  const openDelModal = () => {
+    setDelModalOpen(true);
+  };
+
+  const closeDelModal = () => {
+    setDelModalOpen(false);
+    loadEvents();
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    console.log(event);
+    openDelModal();
+  };
+  
   const locales = {
     "en-US": require("date-fns/locale/en-US")
   }
@@ -47,6 +65,7 @@ function HomePage(){
     getDay,
     locales
   })
+
   
   useEffect(() => {
     const fetchEvents = async () => {
@@ -77,6 +96,7 @@ function HomePage(){
                 <Modal isOpen={isModalOpen} onClose={closeModal} />
 
               </div>
+              <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
 
       <Calendar
         localizer={localizer}
@@ -84,6 +104,7 @@ function HomePage(){
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500, margin: "50px" }}
+        onSelectEvent={handleEventClick}
       />
 
     </div>
