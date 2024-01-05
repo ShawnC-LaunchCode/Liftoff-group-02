@@ -17,7 +17,7 @@ const Modal = ({ isOpen, onClose }) => {
     
     
     
-      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay:true});
+      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay: false});
         const [allEvents, setAllEvents] = useState([]);
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
@@ -66,7 +66,7 @@ const Modal = ({ isOpen, onClose }) => {
                 <br/>
                 <label style ={{marginRight: "10px"}}>All Day?</label>
 
-                <input type = "checkbox" id="allDayCheck" name="allDayCheck" style={{marginRight: "10px"}} value={newEvent.allDay} onChange={async (e) => setNewEvent({...newEvent, allDay: document.getElementById("allDayCheck").checked })} />
+                <input type = "checkbox" id="allDayCheck" name="allDayCheck" style={{marginRight: "10px"}} value={newEvent.allDay} onChange={(e) => setNewEvent({...newEvent, allDay: document.getElementById("allDayCheck").checked })} />
 
                 <button style={{marginTop: "10px"}} onClick={handleAddEvent}>Add Event</button>
           </div>
