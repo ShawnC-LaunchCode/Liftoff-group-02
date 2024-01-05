@@ -1,18 +1,39 @@
-import axios from 'axios';
-
+import Modal from '../components/Modal.js';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from "date-fns/format";
 import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import React, { useState } from "react";
-import DatePicker from "react-datepicker";
+import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios';
 
 
 
-function homePage(){
+function HomePage(){
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [allEvents, setAllEvents] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const loadEvents = async() => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/events');
+      setAllEvents(response.data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    loadEvents();
+  };
 
   const locales = {
     "en-US": require("date-fns/locale/en-US")
@@ -26,48 +47,30 @@ function homePage(){
     locales
   })
   
-  const events = [
-    {
-      title: "Meeting",
-      allDay: true,
-      start: new Date(2023, 11, 7),
-      end: new Date(2023, 11, 10)
-    },
-    {
-      title: "Vacation",
-      start: new Date(2023, 11, 20),
-      end: new Date(2023, 11, 23)
-    },
-    {
-      title: "Conference",
-      start: new Date(2023, 11, 0),
-      end: new Date(2023, 11, 0)
-    },
-  ]
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/events');
+        
+        setAllEvents(response.data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [newEvent, setNewEvent] = useState({title: "", start: "", end:""})
-    const [allEvents, setAllEvents] = useState(events)
-
-    function handleAddEvent() {
-        setAllEvents([...allEvents, newEvent])
-    }
+    fetchEvents();
+  }, []);
 
   return (
     <div className="App">
               <h1>EventFlow</h1>
-              <h2>Add New Event</h2>
-
               <div>
-                <input type="text" placeholder="Add Title" style={{width:"20%", marginRight: "10px"}}
-                value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
+                <button onClick={openModal}>Open Modal</button>
 
-                <DatePicker placeholderText="Start Date" style={{marginRight: "10px"}}
-                selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})} />
+                <Modal isOpen={isModalOpen} onClose={closeModal} />
 
-                <DatePicker placeholderText="End Date" style={{marginRight: "10px"}}
-                selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})} />
-
-                <button style={{marginTop: "10px"}} onClick={handleAddEvent}>Add Event</button>
               </div>
 
               <Calendar
@@ -82,4 +85,4 @@ function homePage(){
   );
 }
 
-export default homePage;
+export default HomePage;
