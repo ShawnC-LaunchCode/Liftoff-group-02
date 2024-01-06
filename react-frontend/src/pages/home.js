@@ -54,6 +54,7 @@ function HomePage(){
         const response = await axios.get('http://localhost:8080/api/events');
         
         setAllEvents(response.data);
+       
       } catch (error) {
         setError(error.message);
       } finally {
@@ -81,8 +82,12 @@ function HomePage(){
       <Calendar
         localizer={localizer}
         events={allEvents}
-        startAccessor="start"
-        endAccessor="end"
+        startAccessor= {(event) => {
+          return new Date(event.start);
+        }}
+        endAccessor = {(event) => {
+          return new Date(event.end);
+        }}
         style={{ height: 500, margin: "50px" }}
       />
 
