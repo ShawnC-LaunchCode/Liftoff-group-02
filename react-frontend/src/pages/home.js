@@ -50,7 +50,6 @@ function HomePage(){
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
-    console.log(event);
     openDelModal();
   };
   

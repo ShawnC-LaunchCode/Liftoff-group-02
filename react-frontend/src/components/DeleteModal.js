@@ -17,7 +17,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
     
     
-        const [newEvent, setNewEvent] = useState({title: "", start: selectedEvent ? selectedEvent.start : "", end: selectedEvent? selectedEvent.end : "", allDay:true});
+        const [newEvent, setNewEvent] = useState({title: "", start: "", end:  "", allDay:true});
         const [allEvents, setAllEvents] = useState([]);
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
@@ -29,8 +29,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
         const handleEditEvent = async() => {
           try {
-            console.log({ event: newEvent, id: selectedEvent.id });
-            const response = await axios.post('http://localhost:8080/api/editEvent', { event: newEvent, id: selectedEvent.id });
+            const response = await axios.post('http://localhost:8080/api/editEvent', {title :newEvent.title, start: newEvent.start, end: newEvent.end, allDay: newEvent.allDay, id : selectedEvent.id});
             console.log(response.data);  // Handle success response
             
           } catch (error) {
@@ -43,7 +42,6 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
         const handleDeleteEvent = async() => {
             try {
-                console.log(selectedEvent.id)
               const response = await axios.post('http://localhost:8080/api/deleteEvent', { id: selectedEvent.id } );
               console.log(response.data);  // Handle success response
               
@@ -54,7 +52,12 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
               loadEvents();
               onClose();
           };
-
+          useEffect(() => {
+            if (isOpen && selectedEvent){
+            const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay};
+            setNewEvent(eventData);
+            }
+          },[isOpen, selectedEvent]);
   return (
     <>
       {isOpen && (
@@ -66,16 +69,16 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
             <br/>
             <br/>
             <h2>Edit or Delete Event</h2>
-            <input type="text" placeholder={selectedEvent.title} style={{width:"75%", marginRight: "10px"}}
+            <input type="text" id = "titleInput" placeholder={selectedEvent.title} style={{width:"75%", marginRight: "10px"}}
                 value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
                 <br/>
                 <br/>
                 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker label="Start Date" defaultValue={parseISO(selectedEvent.start)} selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
+                    <DateTimePicker label="Start Date" id = "startDate" defaultValue={parseISO(selectedEvent.start)} selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
                     <br/>
                     <br/>
-                    <DateTimePicker label="End Date" defaultValue={parseISO(selectedEvent.end)} selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
+                    <DateTimePicker label="End Date" id = "endDate" defaultValue={parseISO(selectedEvent.end)} selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
                 </LocalizationProvider>
                 <br/>
                 <br/>

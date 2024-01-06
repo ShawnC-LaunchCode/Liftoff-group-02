@@ -1,8 +1,11 @@
 package com.example.QSCLiftOff.controllers;
 
 import com.example.QSCLiftOff.models.Event;
+import com.example.QSCLiftOff.models.DTOs.EventDTO;
 import com.example.QSCLiftOff.models.DTOs.idDTO;
 import com.example.QSCLiftOff.models.data.EventRepository;
+
+import net.minidev.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +42,11 @@ public class EventController {
     }
 
     @PostMapping("/editEvent")
-    public ResponseEntity<String> editEvent(@RequestBody Map<String, Object> request){
-        idDTO id = (idDTO) request.get("id");
-
-        Optional<Event> optionalExistingEvent = eventRepository.findById(id.getId());
+    public ResponseEntity<String> editEvent(@RequestBody EventDTO data){
+        System.out.println(data);
+        Optional<Event> optionalExistingEvent = eventRepository.findById(data.getId());
         if (optionalExistingEvent.isPresent()){
             Event existingEvent = optionalExistingEvent.get();
-            Event data = (Event) request.get("event");
             existingEvent.setAllDay(data.isAllDay()); existingEvent.setEnd(data.getEnd()); existingEvent.setStart(data.getStart()); existingEvent.setTitle(data.getTitle());
             eventRepository.save(existingEvent);
             return new ResponseEntity<>("Resource edited successfully", HttpStatus.CREATED);
