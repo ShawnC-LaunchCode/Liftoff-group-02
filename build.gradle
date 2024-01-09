@@ -27,6 +27,9 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.springframework.security:spring-security-crypto:6.1.2'
 	implementation 'mysql:mysql-connector-java:8.0.33'
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	implementation 'org.springframework.session:spring-session-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('bootBuildImage') {
