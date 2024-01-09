@@ -10,7 +10,7 @@ import java.security.Principal;
 
 
 @RestController
-public class AuthenticationController {
+public class SessionController {
 
     private final String HOME_VIEW_COUNT = "HOMER_VIEW_COUNT";
 
