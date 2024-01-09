@@ -20,6 +20,7 @@ function HomePage(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [createEvent, setCreateEvent] = useState(null);
 
   const loadEvents = async() => {
     try {
@@ -65,7 +66,12 @@ function HomePage(){
     locales
   })
 
-  
+  const handleSelectSlot = (info) => {
+    setCreateEvent(info);
+    console.log(info);
+    openModal();
+  };
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -91,9 +97,7 @@ function HomePage(){
         <WeatherAPI />
     </div>
               <div>
-                <button onClick={openModal}>Open Modal</button>
-
-                <Modal isOpen={isModalOpen} onClose={closeModal} />
+                <Modal isOpen={isModalOpen} createEvent={createEvent} onClose={closeModal} />
 
               </div>
               <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
@@ -107,8 +111,11 @@ function HomePage(){
         endAccessor = {(event) => {
           return new Date(event.end);
         }}
-        style={{ height: 500, margin: "50px" }}
+        selectable={true}
+        onSelectSlot={handleSelectSlot}
         onSelectEvent={handleEventClick}
+        style={{ height: 500, margin: "50px" }}
+        
       />
 
     </div>
