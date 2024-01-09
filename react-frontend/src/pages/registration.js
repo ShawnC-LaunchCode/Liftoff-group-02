@@ -28,6 +28,17 @@ const handleRegistration = async () => {
   }
 };
 
+const sessionCount = async () => {
+  try {
+    const response = await axios.get('http://localhost:8080/count', userData);
+    console.log("This is data: " + response.data);  // Handle success response
+    
+  } catch (error) {
+    console.error('Error registering user:', error);
+  }
+};
+
+
 return (
   <div>
     <label>Username:</label>
