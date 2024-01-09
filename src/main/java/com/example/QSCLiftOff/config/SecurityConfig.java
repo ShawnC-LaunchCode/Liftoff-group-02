@@ -20,17 +20,21 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/*")
                         .ignoringRequestMatchers("/sessions/*")
                 )
+
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("http://localhost:3000").authenticated()
+                        .requestMatchers("/api/events").authenticated()
+                        .requestMatchers("/sessions/count").authenticated()
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
-//                .formLogin(Customizer.withDefaults())
-                .formLogin(httpSecurityFormLoginConfigurer ->
-                        httpSecurityFormLoginConfigurer.loginPage("http://localhost:3000/login")
-//                                .loginProcessingUrl("http://localhost:8080/api/login")
-                                .defaultSuccessUrl("http://localhost:3000/")
-
-                );
+                .formLogin(Customizer.withDefaults());
+//                .formLogin(httpSecurityFormLoginConfigurer ->
+//                        httpSecurityFormLoginConfigurer.loginPage("http://localhost:3000/login")
+////                                .loginProcessingUrl("http://localhost:8080/api/login")
+////                                .defaultSuccessUrl("http://localhost:3000/")
+//
+//                );
         return http.build();
     }
 
