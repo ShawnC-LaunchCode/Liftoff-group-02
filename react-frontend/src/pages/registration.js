@@ -30,7 +30,7 @@ const handleRegistration = async () => {
 
 const sessionCount = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/count', userData);
+    const response = await axios.get('http://localhost:8080/sessions/count', userData);
     console.log("This is data: " + response.data);  // Handle success response
     
   } catch (error) {
@@ -47,7 +47,7 @@ return (
     <label>Password:</label>
     <input type="password" name="password" value={userData.password} onChange={handleInputChange} />
 
-    <button onClick={handleRegistration}>Register</button>
+    <button onClick={sessionCount}>Register</button>
   </div>
 );
 };
