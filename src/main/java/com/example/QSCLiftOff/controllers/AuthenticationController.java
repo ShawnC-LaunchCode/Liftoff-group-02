@@ -1,39 +1,35 @@
 package com.example.QSCLiftOff.controllers;
 
-import com.example.QSCLiftOff.models.User;
-import com.example.QSCLiftOff.models.data.UserRepository;
+
+
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.security.Principal;
 
-@Controller
+
+@RestController
 public class AuthenticationController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final String HOME_VIEW_COUNT = "HOMER_VIEW_COUNT";
 
-    private static final String userSessionKey = "user";
-
-    private static void setUserInSession(HttpSession session, User user) {
-        session.setAttribute(userSessionKey, user.getId());
+    @GetMapping("/")
+    public String hello(Principal principal, HttpSession session) {
+        incrementCount(session, HOME_VIEW_COUNT);
+        return "Hello, " + principal.getName();
     }
 
-    public User getUserFromSession(HttpSession session) {
-
-        Integer userId = (Integer) session.getAttribute(userSessionKey);
-        if (userId == null) {
-            return null;
-        }
-
-        Optional<User> userOpt = userRepository.findById(userId);
-
-        if (userOpt.isEmpty()){
-            return null;
-        }
-
-        return userOpt.get();
+    @GetMapping("/count")
+    public String count(HttpSession session) {
+        return "HOME_VIEW_COUNT: " + session.getAttribute(HOME_VIEW_COUNT);
     }
+
+    private void incrementCount(HttpSession session, String attr) {
+        var homeViewCount = session.getAttribute(attr) == null ? 0 : (Integer) session.getAttribute(attr);
+        session.setAttribute(attr, homeViewCount += 1);
+    }
+
+
 }
+
