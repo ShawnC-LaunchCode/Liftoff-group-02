@@ -8,8 +8,10 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
+import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
+import 'semantic-ui-css/semantic.min.css';
 
 
 
@@ -21,6 +23,8 @@ function HomePage(){
   const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [createEvent, setCreateEvent] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
+  const [user, setUser] = useState(null);
 
   const loadEvents = async() => {
     try {
@@ -30,6 +34,26 @@ function HomePage(){
       setError(error.message);
     }
   };
+
+  const userlist = async() => {
+try {
+  const response = await axios.get('http://localhost:8080/api/users');
+  const userArray = [];
+
+  for(let i = 0; i < response.data.length; i++){
+    var keyValueObject = {
+      key: response.data[i].id,
+      value: response.data[i].username,
+      text: response.data[i].username
+    };
+    userArray.push(keyValueObject);
+  }
+      setAllUsers(userArray);
+    } catch (error) {
+      setError(error.message);
+    }
+};
+
 
   const openModal = () => {
     setModalOpen(true);
@@ -56,7 +80,7 @@ function HomePage(){
   
   const locales = {
     "en-US": require("date-fns/locale/en-US")
-  }
+  };
 
   const localizer = dateFnsLocalizer({
     format,
@@ -64,12 +88,16 @@ function HomePage(){
     startOfWeek,
     getDay,
     locales
-  })
+  });
 
   const handleSelectSlot = (info) => {
     setCreateEvent(info);
     openModal();
   };
+
+  const handleUserChange = (event, {value}) => {
+    setUser(value);
+  }
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -84,7 +112,7 @@ function HomePage(){
         setLoading(false);
       }
     };
-
+    userlist();
     fetchEvents();
   }, []);
 
@@ -95,6 +123,17 @@ function HomePage(){
         <h3>Input your city for the weather today!</h3>
         <WeatherAPI />
     </div>
+    <label>Logged in as?</label>
+    <Dropdown
+    id = 'userDropdown'
+    placeholder='Select User'
+    fluid
+    search
+    selection
+    options={allUsers}
+    onChange={handleUserChange}
+    value = {user}
+  />
               <div>
                 <Modal isOpen={isModalOpen} createEvent={createEvent} onClose={closeModal} />
 

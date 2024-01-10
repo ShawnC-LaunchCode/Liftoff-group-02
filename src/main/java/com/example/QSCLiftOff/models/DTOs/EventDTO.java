@@ -2,23 +2,27 @@ package com.example.QSCLiftOff.models.DTOs;
 
 import java.util.Date;
 
+import com.example.QSCLiftOff.models.User;
+
 public class EventDTO {
     
     public String title;
     public Date start;
     public Date end;
     public boolean allDay;
+    public User user;
     public int id;
 
     EventDTO(){
 
     }
 
-    EventDTO(String title, Date start, Date end, boolean allDay, int id){
+    EventDTO(String title, Date start, Date end, boolean allDay, User user, int id){
         this.title = title;
         this.start = start;
         this.end = end;
         this.allDay = allDay;
+        this.user = user;
         this.id = id;
     }
     
@@ -67,5 +71,13 @@ public class EventDTO {
         this.id = id;
     }
 
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 }

@@ -19,13 +19,19 @@ public class Event {
 
     private boolean allDay;
 
+@ManyToOne
+@JoinColumn(name = "user_id")
+    private User user;
+
+
     public Event(){}
 
-    public Event(String title, Date start, Date end, boolean allDay){
+    public Event(String title, Date start, Date end, boolean allDay, User user){
         this.title = title;
         this.start = start;
         this.end = end;
         this.allDay = allDay;
+        this.user = user;
     }
 
         public int getId() {
@@ -68,4 +74,17 @@ public class Event {
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

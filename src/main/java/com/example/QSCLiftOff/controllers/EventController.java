@@ -36,7 +36,7 @@ public class EventController {
     @PostMapping("/createEvent")
     public ResponseEntity<String> createEvent(@RequestBody Event data){
 
-        Event event = new Event(data.getTitle(), data.getStart(), data.getEnd(), data.getAllDay() );
+        Event event = new Event(data.getTitle(), data.getStart(), data.getEnd(), data.getAllDay(), data.getUser() );
         eventRepository.save(event);
         return new ResponseEntity<>("Resource created successfully", HttpStatus.CREATED);
     }
@@ -47,7 +47,7 @@ public class EventController {
         Optional<Event> optionalExistingEvent = eventRepository.findById(data.getId());
         if (optionalExistingEvent.isPresent()){
             Event existingEvent = optionalExistingEvent.get();
-            existingEvent.setAllDay(data.isAllDay()); existingEvent.setEnd(data.getEnd()); existingEvent.setStart(data.getStart()); existingEvent.setTitle(data.getTitle());
+            existingEvent.setAllDay(data.isAllDay()); existingEvent.setEnd(data.getEnd()); existingEvent.setStart(data.getStart()); existingEvent.setTitle(data.getTitle()); existingEvent.setUser(data.getUser());
             eventRepository.save(existingEvent);
             return new ResponseEntity<>("Resource edited successfully", HttpStatus.CREATED);
         }else{
