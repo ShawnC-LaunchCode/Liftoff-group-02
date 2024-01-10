@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@CrossOrigin(origins = {"http://localhost:3000"})
+@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 @RequestMapping("/sessions")
 @RestController
 public class SessionController {
@@ -17,7 +17,7 @@ public class SessionController {
     @GetMapping("/hello")
     public String hello(Principal principal, HttpSession session) {
         incrementCount(session, HOME_VIEW_COUNT);
-        return "Hello, ";
+        return "Hello, " + principal.getName();
     }
 
     @GetMapping("/count")

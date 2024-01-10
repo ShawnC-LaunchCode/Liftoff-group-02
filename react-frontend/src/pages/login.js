@@ -16,7 +16,10 @@ function LoginPage(){
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/login', loginData);
+      const response = await axios.post('http://localhost:8080/api/login', loginData, {withCredentials: true, headers:{
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }});
       console.log(response.data);  // Handle success response
       if(response.data === "Login successful"){
         navigate('/');

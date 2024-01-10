@@ -30,7 +30,7 @@ const handleRegistration = async () => {
 
 const sessionCount = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/sessions/count', userData);
+    const response = await axios.get('http://localhost:8080/sessions/count', {withCredentials: true}, userData);
     console.log("This is data: " + response.data);  // Handle success response
     
   } catch (error) {
