@@ -52,6 +52,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
             }
       
               loadEvents();
+              setEditing(false);
               onClose();
           };
 
@@ -61,6 +62,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
           useEffect(() => {
             if (isOpen && selectedEvent){
+                setEditing(false);
             const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay};
             setNewEvent(eventData);
             }
@@ -68,9 +70,9 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
   return (
     <>
       {isOpen && (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-overlay" onClick={() => {onClose(); setEditing(false)}}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
+            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false); setEditing(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
               &times;
             </span>
             <br/>

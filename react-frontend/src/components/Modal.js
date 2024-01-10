@@ -68,7 +68,7 @@ const Modal = ({ isOpen, createEvent, onClose }) => {
                     <DateTimePicker label="Start Date" defaultValue={new Date(createEvent.start)} selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
                     <br/>
                     <br/>
-                    <DateTimePicker label="End Date" defaultValue={new Date(createEvent.end - 1)} selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
+                    <DateTimePicker label="End Date" defaultValue={new Date(createEvent.end)} selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
                 </LocalizationProvider>
                 <br/>
                 <br/>

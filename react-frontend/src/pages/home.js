@@ -68,7 +68,6 @@ function HomePage(){
 
   const handleSelectSlot = (info) => {
     setCreateEvent(info);
-    console.log(info);
     openModal();
   };
 
