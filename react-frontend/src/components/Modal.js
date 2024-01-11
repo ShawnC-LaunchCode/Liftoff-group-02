@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import '../Modal.css';
 import { colors } from "@mui/material";
+import withCredentials from "./withCredentials";
 
 const Modal = ({ isOpen, onClose }) => {
     const loadEvents = async() => {
         try {
-          const response = await axios.get('http://localhost:8080/api/events');
+          const response = await axios.get('http://localhost:8080/api/events', withCredentials());
           setAllEvents(response.data);
         } catch (error) {
           setError(error.message);
@@ -29,7 +30,7 @@ const Modal = ({ isOpen, onClose }) => {
 
         const handleAddEvent = async() => {
           try {
-            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent, {withCredentials: true});
+            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent, withCredentials());
             console.log(response.data);  // Handle success response
             
           } catch (error) {

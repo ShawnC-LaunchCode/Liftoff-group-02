@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
+import withCredentials from '../components/withCredentials.js';
 
 
 
@@ -20,7 +21,7 @@ function HomePage(){
 
   const loadEvents = async() => {
     try {
-      const response = await axios.get('http://localhost:8080/api/events', {withCredentials: true});
+      const response = await axios.get('http://localhost:8080/api/events', withCredentials());
       setAllEvents(response.data);
     } catch (error) {
       setError(error.message);
@@ -51,7 +52,7 @@ function HomePage(){
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/events', {withCredentials: true});
+        const response = await axios.get('http://localhost:8080/api/events', withCredentials());
         
         setAllEvents(response.data);
        

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import withCredentials from '../components/withCredentials';
 
 function LoginPage(){
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ function LoginPage(){
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/login', loginData, {withCredentials: true} );
+      const response = await axios.post('http://localhost:8080/api/login', loginData, withCredentials() );
       console.log(response.data);  // Handle success response
       if(response.data === "Login successful"){
         navigate('/');
