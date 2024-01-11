@@ -15,7 +15,7 @@ function App() {
     return (
         <Router >
             <Routes>
-                <Route exact path="/react" 
+                <Route exact path="/" 
                 element={<HomePage />}
             />
 

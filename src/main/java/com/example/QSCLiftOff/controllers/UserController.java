@@ -49,7 +49,7 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody loginFormDTO data) {
         // Validate login credentials and generate authentication token
