@@ -3,7 +3,10 @@ package com.example.QSCLiftOff.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +21,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Value("${spring.websecurity.debug:false}")
@@ -26,6 +30,16 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.debug(webSecurityDebug);
+    }
+
+    @Bean
+    InMemoryUserDetailsManager users() {
+        return new InMemoryUserDetailsManager(
+                User.withUsername("jacob")
+                        .password("{noop}1234")
+                        .roles("ADMIN")
+                        .build()
+        );
     }
 
     @Bean
@@ -38,7 +52,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .formLogin(Customizer.withDefaults());
+//                .formLogin(Customizer.withDefaults());
+                .formLogin(formLogin -> formLogin.defaultSuccessUrl("http://localhost:3000"));
 
         return http.build();
     }

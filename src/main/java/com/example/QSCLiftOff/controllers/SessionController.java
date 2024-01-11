@@ -3,6 +3,7 @@ package com.example.QSCLiftOff.controllers;
 
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -20,6 +21,7 @@ public class SessionController {
         return "Hello, " + principal.getName();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/count")
     public String count(HttpSession session) {
         return "HOME_VIEW_COUNT: " + session.getAttribute(HOME_VIEW_COUNT);
