@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose }) => {
 
         const handleAddEvent = async() => {
           try {
-            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent);
+            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent, {withCredentials: true});
             console.log(response.data);  // Handle success response
             
           } catch (error) {
