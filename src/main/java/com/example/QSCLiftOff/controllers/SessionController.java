@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-//@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
+
 @RequestMapping("/sessions")
 @RestController
 public class SessionController {

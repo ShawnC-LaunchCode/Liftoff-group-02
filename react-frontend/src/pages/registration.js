@@ -18,7 +18,7 @@ const handleInputChange = (e) => {
 
 const handleRegistration = async () => {
   try {
-    const response = await axios.post('http://localhost:8080/api/createResource', userData);
+    const response = await axios.post('http://localhost:8080/api/createResource', userData, {withCredentials: true});
     console.log(response.data);  // Handle success response
     if(response.data === "Resource created successfully"){
       navigate('/login');
@@ -28,6 +28,7 @@ const handleRegistration = async () => {
   }
 };
 
+// To be deleted. Just wanna see if session still works.
 const sessionCount = async () => {
   try {
     const response = await axios.get('http://localhost:8080/sessions/count', {withCredentials: true}, userData);
@@ -47,7 +48,7 @@ return (
     <label>Password:</label>
     <input type="password" name="password" value={userData.password} onChange={handleInputChange} />
 
-    <button onClick={sessionCount}>Register</button>
+    <button onClick={handleRegistration}>Register</button>
   </div>
 );
 };
