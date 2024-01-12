@@ -6,7 +6,7 @@ import axios from 'axios';
 import '../Modal.css';
 import { colors } from "@mui/material";
 
-const Modal = ({ isOpen, createEvent, onClose }) => {
+const Modal = ({ isOpen, createEvent, loggedInUser, onClose }) => {
     const loadEvents = async() => {
         try {
           const response = await axios.get('http://localhost:8080/api/events');
@@ -18,18 +18,17 @@ const Modal = ({ isOpen, createEvent, onClose }) => {
     
     
     
-      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay: false});
+      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay: false, username: ''});
         const [allEvents, setAllEvents] = useState([]);
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
-        const [isHovered, setHovered] = useState(false);
-
-        const handleHover = (hoverState) => {
-          setHovered(hoverState);
-        };
 
         const handleAddEvent = async() => {
           try {
+            const updateEvent = newEvent;
+            updateEvent.username = loggedInUser;
+            setNewEvent(updateEvent);
+            console.log(newEvent);
             const response = await axios.post('http://localhost:8080/api/createEvent', newEvent);
             console.log(response.data);  // Handle success response
             
@@ -53,7 +52,7 @@ const Modal = ({ isOpen, createEvent, onClose }) => {
       {isOpen && (
         <div className="modal-overlay" onClick={onClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
+            <span className= 'close'  onClick={onClose} >
               &times;
             </span>
             <br/>

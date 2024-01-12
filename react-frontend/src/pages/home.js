@@ -12,6 +12,7 @@ import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 import 'semantic-ui-css/semantic.min.css';
+import '../index.css';
 
 
 
@@ -97,6 +98,7 @@ try {
 
   const handleUserChange = (event, {value}) => {
     setUser(value);
+    console.log(value);
   }
 
   useEffect(() => {
@@ -118,7 +120,9 @@ try {
 
   return (
     <div className="App">
-              <h1>EventFlow</h1>
+      <div className='container'>
+      <div className = "titleBlock">EventFlow</div>
+      </div>
     <div>
         <h3>Input your city for the weather today!</h3>
         <WeatherAPI />
@@ -135,7 +139,7 @@ try {
     value = {user}
   />
               <div>
-                <Modal isOpen={isModalOpen} createEvent={createEvent} onClose={closeModal} />
+                <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
 
               </div>
               <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
