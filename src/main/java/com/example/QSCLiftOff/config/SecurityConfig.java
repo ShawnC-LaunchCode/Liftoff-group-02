@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,23 +56,17 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/sessions/*")
                         .ignoringRequestMatchers(("/handlelogin"))
                 )
-
-
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
                         .loginPage("http://localhost:3000/login")
                         .loginProcessingUrl("/handlelogin")
-                                .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.NO_CONTENT.value())))
-
-//                        .defaultSuccessUrl("/http:localhost:3000")
+                        .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.NO_CONTENT.value())))
                         .permitAll()
                 )
-//                .formLogin(formLogin -> formLogin.permitAll())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/register").permitAll()
                                 .anyRequest().authenticated()
-//                        .anyRequest().permitAll()
                 )
                 .logout(logout -> logout.permitAll());
 

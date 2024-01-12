@@ -21,7 +21,6 @@ public class SessionController {
         return "Hello, " + principal.getName();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/count")
     public String count(HttpSession session) {
         return "HOME_VIEW_COUNT: " + session.getAttribute(HOME_VIEW_COUNT);

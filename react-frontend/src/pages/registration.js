@@ -29,18 +29,6 @@ const handleRegistration = async () => {
   }
 };
 
-// To be deleted. Just wanna see if session still works.
-const sessionCount = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/sessions/count', withCredentials(), userData);
-    console.log("This is data: " + response.data);  // Handle success response
-    
-  } catch (error) {
-    console.error('Error registering user:', error);
-  }
-};
-
-
 return (
   <div>
     <label>Username:</label>
