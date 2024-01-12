@@ -49,24 +49,24 @@ public class UserController {
     }
 
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody loginFormDTO data) {
-        // Validate login credentials and generate authentication token
-        Optional<User> userOptional = userRepository.findByUsername(data.getUsername());
-        User user;
-        if (userOptional.isPresent()) {
-            // User exists, proceed with validation
-            user = userOptional.get();
-        }else{
-        return new ResponseEntity<>("UserName: Not successful", HttpStatus.UNAUTHORIZED);
-        }
-
-        if (user.isMatchingPassword(data.getPassword())){
-        return new ResponseEntity<>("Login successful", HttpStatus.OK);
-        } else {return new ResponseEntity<>("Password: Not successful", HttpStatus.UNAUTHORIZED);
-
-        }
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<String> loginUser(@RequestBody loginFormDTO data) {
+//        // Validate login credentials and generate authentication token
+//        Optional<User> userOptional = userRepository.findByUsername(data.getUsername());
+//        User user;
+//        if (userOptional.isPresent()) {
+//            // User exists, proceed with validation
+//            user = userOptional.get();
+//        }else{
+//        return new ResponseEntity<>("UserName: Not successful", HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        if (user.isMatchingPassword(data.getPassword())){
+//        return new ResponseEntity<>("Login successful", HttpStatus.OK);
+//        } else {return new ResponseEntity<>("Password: Not successful", HttpStatus.UNAUTHORIZED);
+//
+//        }
+//    }
 
 @GetMapping("/{username}")
     public Optional<User> getSpecificUser(@PathVariable String username){

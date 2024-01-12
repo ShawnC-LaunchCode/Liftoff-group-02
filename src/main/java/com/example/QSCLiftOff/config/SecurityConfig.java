@@ -4,6 +4,7 @@ package com.example.QSCLiftOff.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -46,8 +47,8 @@ public class SecurityConfig {
 
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username, pwhash, id FROM liftoff.user WHERE username=?")
-                .authoritiesByUsernameQuery("select username, id FROM liftoff.user WHERE username=?");
+                .usersByUsernameQuery("select username, pwhash, id from liftoff.user where username=?")
+                .authoritiesByUsernameQuery("select username, id from liftoff.user where username=?");
     }
 
     @Bean
@@ -56,12 +57,26 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf
                         .ignoringRequestMatchers("/api/*")
                         .ignoringRequestMatchers("/sessions/*")
+                        .ignoringRequestMatchers(("/handlelogin"))
                 )
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+
+
                 .httpBasic(Customizer.withDefaults())
-//                .formLogin(formLogin -> formLogin.loginPage("http://localhost:3000/login"))
-                .formLogin(formLogin -> formLogin.permitAll())
+                .formLogin(form -> form
+                        .loginPage("http://localhost:3000/login")
+                        .loginProcessingUrl("/handlelogin")
+                                .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.NO_CONTENT.value())))
+
+//                        .defaultSuccessUrl("/http:localhost:3000")
+                        .permitAll()
+                )
+//                .formLogin(formLogin -> formLogin.permitAll())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/register").permitAll()
+                                .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
+                )
                 .logout(logout -> logout.permitAll());
 
 
