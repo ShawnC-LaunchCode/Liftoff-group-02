@@ -27,9 +27,9 @@ function HomePage(){
   const [allUsers, setAllUsers] = useState([]);
   const [user, setUser] = useState(null);
 
-  const loadEvents = async() => {
+  const loadEventsByUser = async(user) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/events');
+      const response = await axios.get('http://localhost:8080/api/events/' + user);
       setAllEvents(response.data);
     } catch (error) {
       setError(error.message);
@@ -62,7 +62,7 @@ try {
 
   const closeModal = () => {
     setModalOpen(false);
-    loadEvents();
+    loadEventsByUser(user);
   };
 
   const openDelModal = () => {
@@ -71,7 +71,7 @@ try {
 
   const closeDelModal = () => {
     setDelModalOpen(false);
-    loadEvents();
+    loadEventsByUser(user);
   };
 
   const handleEventClick = (event) => {
@@ -98,24 +98,12 @@ try {
 
   const handleUserChange = (event, {value}) => {
     setUser(value);
-    console.log(value);
+    loadEventsByUser(value);
   }
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/events');
-        
-        setAllEvents(response.data);
-       
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    loadEventsByUser(user);
     userlist();
-    fetchEvents();
   }, []);
 
   return (

@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.RequestEntity;
 
 import java.util.ArrayList;
@@ -37,6 +38,19 @@ public class EventController {
     @GetMapping("/events")
     public Iterable<Event> getAllEvents(){
         return eventRepository.findAll();
+}
+
+@GetMapping("/events/{username}")
+    public Iterable<Event> getUserEvents(@PathVariable String username){
+        Optional<User> optUser = userRepository.findByUsername(username);
+
+        if (optUser.isPresent()){
+            User user = optUser.get();
+            return eventRepository.findByUser(user);
+        } else {
+            return eventRepository.findByUser(null);
+        }
+        
 }
 
     @PostMapping("/createEvent")
