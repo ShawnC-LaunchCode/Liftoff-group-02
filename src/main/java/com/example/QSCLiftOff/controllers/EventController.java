@@ -70,7 +70,7 @@ public class EventController {
 
     @PostMapping("/editEvent")
     public ResponseEntity<String> editEvent(@RequestBody EventDTO data){
-        System.out.println(data);
+
         Optional<Event> optionalExistingEvent = eventRepository.findById(data.getId());
         if (optionalExistingEvent.isPresent()){
             Event existingEvent = optionalExistingEvent.get();
