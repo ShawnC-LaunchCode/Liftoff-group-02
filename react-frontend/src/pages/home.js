@@ -76,6 +76,7 @@ try {
 
   const handleEventClick = (event) => {
     setSelectedEvent(event);
+    console.log(event);
     openDelModal();
   };
   

@@ -30,7 +30,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
         const handleEditEvent = async() => {
           try {
-            const response = await axios.post('http://localhost:8080/api/editEvent', {title :newEvent.title, start: newEvent.start, end: newEvent.end, allDay: newEvent.allDay, id : selectedEvent.id});
+            const response = await axios.post('http://localhost:8080/api/editEvent', {title :newEvent.title, start: newEvent.start, end: newEvent.end, allDay: newEvent.allDay, user:selectedEvent.user, id : selectedEvent.id});
             console.log(response.data);  // Handle success response
             
           } catch (error) {
@@ -63,7 +63,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
           useEffect(() => {
             if (isOpen && selectedEvent){
                 setEditing(false);
-            const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay};
+            const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay, user: selectedEvent.user};
             setNewEvent(eventData);
             }
           },[isOpen, selectedEvent]);
