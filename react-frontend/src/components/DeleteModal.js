@@ -65,6 +65,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
                 setEditing(false);
             const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay};
             setNewEvent(eventData);
+            console.log(selectedEvent);
             }
           },[isOpen, selectedEvent]);
   return (
@@ -116,6 +117,8 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
                     <DateTimePicker label="End Date" id = "endDate" defaultValue={parseISO(selectedEvent.end)} selected={newEvent.end} readOnly/>
                 </LocalizationProvider>
                 <br/>
+                <br/>
+                <label>Created By {selectedEvent.user.username}</label>
                 <br/>
                 <button style={{marginTop: "10px"}} onClick={handleEditToggle}>Edit Event</button>
                 <br/>

@@ -1,6 +1,9 @@
 package com.example.QSCLiftOff.models;
 
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -21,7 +24,11 @@ public class Event {
 
 @ManyToOne
 @JoinColumn(name = "user_id")
+@JsonIgnore
     private User user;
+
+@ManyToMany(mappedBy = "invitedTo")
+    private List<User> invited;
 
 
     public Event(){}
@@ -75,9 +82,6 @@ public class Event {
         this.allDay = allDay;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public User getUser() {
         return this.user;
@@ -85,6 +89,14 @@ public class Event {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<User> getInvited() {
+        return this.invited;
+    }
+
+    public void setInvited(List<User> invited) {
+        this.invited = invited;
     }
 
 }
