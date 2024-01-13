@@ -22,6 +22,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
         const [isHovered, setHovered] = useState(false);
+        const [isEditing, setEditing] = useState(false);
 
         const handleHover = (hoverState) => {
           setHovered(hoverState);
@@ -37,6 +38,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
           }
     
             loadEvents();
+            handleEditToggle();
             onClose();
         };
 
@@ -50,10 +52,17 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
             }
       
               loadEvents();
+              setEditing(false);
               onClose();
           };
+
+          const handleEditToggle = () => {
+            setEditing(!isEditing);
+          };
+
           useEffect(() => {
             if (isOpen && selectedEvent){
+                setEditing(false);
             const eventData = {title: selectedEvent.title , start: selectedEvent.start , end: selectedEvent.end, allDay: selectedEvent.allDay};
             setNewEvent(eventData);
             }
@@ -61,14 +70,16 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
   return (
     <>
       {isOpen && (
-        <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-overlay" onClick={() => {onClose(); setEditing(false)}}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
+            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false); setEditing(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
               &times;
             </span>
             <br/>
             <br/>
-            <h2>Edit or Delete Event</h2>
+            { isEditing ? (
+                <div>
+                    <h2>Edit or Delete Event</h2>
             <input type="text" id = "titleInput" placeholder={selectedEvent.title} style={{width:"75%", marginRight: "10px"}}
                 value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
                 <br/>
@@ -86,9 +97,30 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
                 <input type = "checkbox" id="allDayCheck" name="allDayCheck" defaultChecked={selectedEvent.allDay ? true : false} style={{marginRight: "10px"}} value={newEvent.allDay} onChange={async (e) => setNewEvent({...newEvent, allDay: document.getElementById("allDayCheck").checked })} />
 
-                <button style={{marginTop: "10px"}} onClick={handleEditEvent}>Edit Event</button>
+                <button style={{marginTop: "10px"}} onClick={handleEditEvent}>Submit Edit</button>
                 <br/>
                 <button style={{marginTop: "10px", backgroundColor: "crimson"}} onClick={handleDeleteEvent}>Delete Event</button>
+                </div>
+            ):(
+                <div>
+                    <h2>Event</h2>
+                <input type="text" id = "titleInput" placeholder={selectedEvent.title} style={{width:"75%", marginRight: "10px"}}
+                value={newEvent.title} readOnly />
+                <br/>
+                <br/>
+                
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DateTimePicker label="Start Date" id = "startDate" defaultValue={parseISO(selectedEvent.start)} selected={newEvent.start} readOnly/>
+                    <br/>
+                    <br/>
+                    <DateTimePicker label="End Date" id = "endDate" defaultValue={parseISO(selectedEvent.end)} selected={newEvent.end} readOnly/>
+                </LocalizationProvider>
+                <br/>
+                <br/>
+                <button style={{marginTop: "10px"}} onClick={handleEditToggle}>Edit Event</button>
+                <br/>
+                </div>
+            )}
           </div>
         </div>
       )}

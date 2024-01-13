@@ -17,6 +17,9 @@ public class User {
 @NotNull
     private String pwhash;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Event> events;
+
     public User(){}
 
     public User(String username, String password){
