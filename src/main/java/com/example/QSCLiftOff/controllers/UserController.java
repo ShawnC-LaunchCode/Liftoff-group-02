@@ -22,16 +22,9 @@ public class UserController {
 
 @GetMapping("/users")
 
-    public HashMap<User, String> getAllUsers(){
-    HashMap<User, String> objectMap = new HashMap<>();
-
-    Iterable<User> allUsers = userRepository.findAll();
-
-    for (User myObject : allUsers) {
-        objectMap.put(myObject, myObject.getPwhash());
-    }
-
-    return objectMap;
+    public Iterable<User> getAllUsers(){
+    
+        return userRepository.findAll();
 }
 
 @PostMapping("/createResource")

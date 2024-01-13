@@ -1,43 +1,31 @@
-package com.example.QSCLiftOff.models;
+package com.example.QSCLiftOff.models.DTOs;
 
 import java.util.Date;
 
-import jakarta.persistence.*;
+import com.example.QSCLiftOff.models.User;
 
-@Entity
-public class Event {
-  
-    @Id
-    @GeneratedValue
-    private int id;
+public class EventDTO {
+    
+    public String title;
+    public Date start;
+    public Date end;
+    public boolean allDay;
+    public User user;
+    public int id;
 
-    private String title;
+    EventDTO(){
 
-    private Date start;
+    }
 
-    private Date end;
-
-    private boolean allDay;
-
-@ManyToOne
-@JoinColumn(name = "user_id")
-    private User user;
-
-
-    public Event(){}
-
-    public Event(String title, Date start, Date end, boolean allDay, User user){
+    EventDTO(String title, Date start, Date end, boolean allDay, User user, int id){
         this.title = title;
         this.start = start;
         this.end = end;
         this.allDay = allDay;
         this.user = user;
+        this.id = id;
     }
-
-        public int getId() {
-        return this.id;
-    }
-
+    
 
     public String getTitle() {
         return this.title;
@@ -75,9 +63,14 @@ public class Event {
         this.allDay = allDay;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
+
 
     public User getUser() {
         return this.user;

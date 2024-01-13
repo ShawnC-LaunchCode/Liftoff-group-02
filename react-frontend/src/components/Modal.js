@@ -1,12 +1,13 @@
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import React, { useEffect, useState } from "react";
+import parseISO from "date-fns/parseISO";
 import axios from 'axios';
 import '../Modal.css';
 import { colors } from "@mui/material";
 import withCredentials from "./withCredentials";
 
-const Modal = ({ isOpen, onClose }) => {
+const Modal = ({ isOpen, createEvent, loggedInUser, onClose }) => {
     const loadEvents = async() => {
         try {
           const response = await axios.get('http://localhost:8080/api/events', withCredentials());
@@ -18,18 +19,17 @@ const Modal = ({ isOpen, onClose }) => {
     
     
     
-      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay: false});
+      const [newEvent, setNewEvent] = useState({title: "", start: "", end:"", allDay: false, username: ''});
         const [allEvents, setAllEvents] = useState([]);
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
-        const [isHovered, setHovered] = useState(false);
-
-        const handleHover = (hoverState) => {
-          setHovered(hoverState);
-        };
 
         const handleAddEvent = async() => {
           try {
+            const updateEvent = newEvent;
+            updateEvent.username = loggedInUser;
+            setNewEvent(updateEvent);
+            console.log(newEvent);
             const response = await axios.post('http://localhost:8080/api/createEvent', newEvent, withCredentials());
             console.log(response.data);  // Handle success response
             
@@ -41,12 +41,19 @@ const Modal = ({ isOpen, onClose }) => {
             onClose();
         };
 
+        useEffect(() => {
+          if (isOpen && createEvent){
+          const eventData = {title: "" , start: createEvent.start , end: createEvent.end, allDay: false};
+          setNewEvent(eventData);
+          }
+        },[isOpen, createEvent]);
+
   return (
     <>
       {isOpen && (
         <div className="modal-overlay" onClick={onClose}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
+            <span className= 'close'  onClick={onClose} >
               &times;
             </span>
             <br/>
@@ -58,10 +65,10 @@ const Modal = ({ isOpen, onClose }) => {
                 <br/>
                 
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateTimePicker label="Start Date" selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
+                    <DateTimePicker label="Start Date" defaultValue={new Date(createEvent.start)} selected={newEvent.start} onChange={(start) => setNewEvent({...newEvent, start})}/>
                     <br/>
                     <br/>
-                    <DateTimePicker label="End Date" selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
+                    <DateTimePicker label="End Date" defaultValue={new Date(createEvent.end)} selected={newEvent.end} onChange={(end) => setNewEvent({...newEvent, end})}/>
                 </LocalizationProvider>
                 <br/>
                 <br/>
