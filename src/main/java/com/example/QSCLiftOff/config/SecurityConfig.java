@@ -65,7 +65,7 @@ public class SecurityConfig {
                 )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/register").permitAll()
+                        .requestMatchers("/api/createResource").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .logout(logout -> logout.permitAll());
