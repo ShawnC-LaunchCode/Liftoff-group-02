@@ -5,11 +5,12 @@ import parseISO from "date-fns/parseISO";
 import axios from 'axios';
 import '../Modal.css';
 import { colors } from "@mui/material";
+import withCredentials from "./withCredentials";
 
 const Modal = ({ isOpen, createEvent, loggedInUser, onClose }) => {
     const loadEvents = async() => {
         try {
-          const response = await axios.get('http://localhost:8080/api/events');
+          const response = await axios.get('http://localhost:8080/api/events', withCredentials());
           setAllEvents(response.data);
         } catch (error) {
           setError(error.message);
@@ -29,7 +30,7 @@ const Modal = ({ isOpen, createEvent, loggedInUser, onClose }) => {
             updateEvent.username = loggedInUser;
             setNewEvent(updateEvent);
             console.log(newEvent);
-            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent);
+            const response = await axios.post('http://localhost:8080/api/createEvent', newEvent, withCredentials());
             console.log(response.data);  // Handle success response
             
           } catch (error) {
