@@ -2,6 +2,7 @@ package com.example.QSCLiftOff.models.DTOs;
 import java.util.Objects;
 
 public class loginFormDTO {
+
     private String username;
     private String password;
 

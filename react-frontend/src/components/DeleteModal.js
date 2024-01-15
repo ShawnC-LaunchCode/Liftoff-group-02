@@ -4,12 +4,11 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
 import parseISO from "date-fns/parseISO";
 import '../Modal.css';
-import withCredentials from "./withCredentials";
 
 const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
     const loadEvents = async() => {
         try {
-          const response = await axios.get('http://localhost:8080/api/events', withCredentials());
+          const response = await axios.get('http://localhost:8080/api/events');
           setAllEvents(response.data);
         } catch (error) {
           setError(error.message);
@@ -31,7 +30,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
         const handleEditEvent = async() => {
           try {
-            const response = await axios.post('http://localhost:8080/api/editEvent', {title :newEvent.title, start: newEvent.start, end: newEvent.end, allDay: newEvent.allDay, user:selectedEvent.user, id : selectedEvent.id}, withCredentials());
+            const response = await axios.post('http://localhost:8080/api/editEvent', {title :newEvent.title, start: newEvent.start, end: newEvent.end, allDay: newEvent.allDay, user:selectedEvent.user, id : selectedEvent.id});
             console.log(response.data);  // Handle success response
             
           } catch (error) {
@@ -45,7 +44,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
 
         const handleDeleteEvent = async() => {
             try {
-              const response = await axios.post('http://localhost:8080/api/deleteEvent', { id: selectedEvent.id }, withCredentials() );
+              const response = await axios.post('http://localhost:8080/api/deleteEvent', { id: selectedEvent.id } );
               console.log(response.data);  // Handle success response
               
             } catch (error) {
