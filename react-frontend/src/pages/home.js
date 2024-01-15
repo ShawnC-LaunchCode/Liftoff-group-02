@@ -11,7 +11,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
-import withCredentials from '../components/withCredentials.js';
 import 'semantic-ui-css/semantic.min.css';
 import '../index.css';
 
@@ -30,7 +29,7 @@ function HomePage(){
 
   const loadEventsByUser = async(user) => {
     try {
-      const response = await axios.get('http://localhost:8080/api/events/' + user, withCredentials());
+      const response = await axios.get('http://localhost:8080/api/events/' + user);
       setAllEvents(response.data);
     } catch (error) {
       setError(error.message);
@@ -39,7 +38,7 @@ function HomePage(){
 
   const userlist = async() => {
 try {
-  const response = await axios.get('http://localhost:8080/api/users', withCredentials());
+  const response = await axios.get('http://localhost:8080/api/users');
   const userArray = [];
 
   for(let i = 0; i < response.data.length; i++){

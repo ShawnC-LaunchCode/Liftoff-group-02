@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import withCredentials from '../components/withCredentials';
 
 function LoginPage(){
   const navigate = useNavigate();
@@ -16,16 +15,10 @@ function LoginPage(){
   };
 
   const handleLogin = async () => {
-    let formData = new FormData();
-    formData.append("username", loginData.username);
-    formData.append("password", loginData.password);
     try {
-      const response = await axios.post('http://localhost:8080/handlelogin', formData, {
-        headers: {'Content-Type': 'multipart/form-data'}, 
-        withCredentials: true    
-      });
+      const response = await axios.post('http://localhost:8080/api/login', loginData);
       console.log(response.data);  // Handle success response
-      if(response.status === 204){
+      if(response.data === "Login successful"){
         navigate('/');
       }
     } catch (error) {
