@@ -69,25 +69,12 @@ public class SecurityConfig {
                 .logout(logout -> logout.permitAll()
                         .logoutSuccessHandler(((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);}))
                 )
-//                .logout(logout -> logout
-////                        .logoutUrl("/perform_logout")
-//                                .logoutSuccessUrl("success/perform_logout")
-//                        .logoutRequestMatcher(new AntPathRequestMatcher("/perform_logout")).permitAll()
-//                        .invalidateHttpSession(true)
-//                        .deleteCookies("JSESSIONID")
-//
-//
-//                )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/createResource").permitAll()
                         .requestMatchers("/logout").permitAll()
                         .anyRequest().authenticated()
                 );
-
-
-
-
         return http.build();
     }
 

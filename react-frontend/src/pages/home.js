@@ -114,12 +114,12 @@ try {
       <div className='container'>
       <div className = "titleBlock">EventFlow</div>
       </div>
+      <div>
+      <Logout />
+    </div>
     <div>
         <h3>Input your city for the weather today!</h3>
         <WeatherAPI />
-    </div>
-    <div>
-      <Logout />
     </div>
     <label>Logged in as?</label>
     <Dropdown
