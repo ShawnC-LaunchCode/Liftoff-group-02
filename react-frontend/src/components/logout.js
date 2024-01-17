@@ -19,11 +19,7 @@ function Logout() {
 
 
     return (
-        <div>
-            <button onClick={handleLogout} className="logout">
-                    logout
-            </button>
-        </div>
+        <a href="#" onClick={handleLogout} >logout</a>
     )
 }
 

@@ -121,7 +121,7 @@ try {
     <a href="http://localhost:3000/">Home</a>
     <a href="#">Weather</a>
     <a href="#">About</a>
-    <a href="#">Logout</a>
+    <Logout/>
   </nav>
   <br/>
     <div>
