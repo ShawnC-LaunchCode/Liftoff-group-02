@@ -2,6 +2,7 @@ package com.example.QSCLiftOff.config;
 
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -65,7 +66,9 @@ public class SecurityConfig {
                         .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.NO_CONTENT.value())))
                         .permitAll()
                 )
-                .logout(logout -> logout.permitAll())
+                .logout(logout -> logout.permitAll()
+                        .logoutSuccessHandler(((request, response, authentication) -> {response.setStatus(HttpServletResponse.SC_OK);}))
+                )
 //                .logout(logout -> logout
 ////                        .logoutUrl("/perform_logout")
 //                                .logoutSuccessUrl("success/perform_logout")

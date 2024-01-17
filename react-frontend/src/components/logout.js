@@ -7,16 +7,19 @@ function Logout() {
     const navigate = useNavigate();
 
     const handleLogout = async (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/logout',{}, withCredentials());
+            console.log();
             console.log("this is status ", response.status);
-            if(response.status === 404){
-              navigate('/login');
+            if(response.status === 200){
+                navigate("/login")
+              console.log('hello im if statment')
             }
           } catch (error) {
             console.error('Error logging out user:', error);
           }
+        //   navigate("/login")
     };
 
 
@@ -26,9 +29,9 @@ function Logout() {
                     logout
             </button>
             <button onClick={() => {
-                console.log("hello")
+                navigate("/login")
             }}>
-                hello
+                login
             </button>
         </div>
     )
