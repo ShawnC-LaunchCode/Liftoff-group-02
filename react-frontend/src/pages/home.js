@@ -8,7 +8,6 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 import withCredentials from '../components/withCredentials.js';
@@ -116,12 +115,15 @@ try {
 
   return (
     <div className="App">
-      <div className='container'>
-      <div className = "titleBlock">EventFlow</div>
-      </div>
+      <nav>
+    <a href="#" className='logo'>EventFlow</a>
+    <a href="http://localhost:3000/">Home</a>
+    <a href="#">About</a>
+    <a href="#">Logout</a>
+  </nav>
+  <br/>
     <div>
         <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
-        <br/>
         <h3 style={{textAlign: 'center'}}>Input your city for the weather today!</h3>
         <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <WeatherAPI />

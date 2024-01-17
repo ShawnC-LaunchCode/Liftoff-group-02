@@ -12,25 +12,32 @@ code {
     monospace;
 }
 
-.container{
+
+nav {
+  background-color: navy;
+  color: white;
+  padding: 15px 20px;
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.titleBlock {
-  position: relative;
-  display: inline-block;
-  padding: 15px 70px;
-  border: 5px solid navy;
-  color: navy;
-  font-size: 30px;
-  font-family: arial;
-  background-image: linear-gradient(navy,navy);
-  background-position: 0% 0%;
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  transition: background-position .5s, background-size .5s, color .5s;
+.logo {
+  color: #ffcc00; /* Yellow color for the logo */
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
 }
-.titleBlock:hover {
-  background-size: 100% 100%;
-  color: #fff;
+
+nav a {
+  text-decoration: none;
+  color: white;
+  margin: 0 25px; /* Increased margin for spacing */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  border-bottom: 2px solid white;
 }
