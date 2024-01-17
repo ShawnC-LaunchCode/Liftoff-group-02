@@ -13,7 +13,7 @@ import WeatherAPI from './components/WeatherAPI';
 function App() {
 
     return (
-        <Router>
+        <Router >
             <Routes>
                 <Route exact path="/" 
                 element={<HomePage />}

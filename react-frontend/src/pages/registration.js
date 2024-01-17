@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import withCredentials from '../components/withCredentials';
 
 function RegistrationPage(){
 // Replace 'https://api.example.com' with the actual API endpoint
@@ -18,7 +19,7 @@ const handleInputChange = (e) => {
 
 const handleRegistration = async () => {
   try {
-    const response = await axios.post('http://localhost:8080/api/createResource', userData);
+    const response = await axios.post('http://localhost:8080/api/createResource', userData, withCredentials());
     console.log(response.data);  // Handle success response
     if(response.data === "Resource created successfully"){
       navigate('/login');
