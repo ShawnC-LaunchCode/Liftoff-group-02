@@ -118,6 +118,7 @@ try {
       <nav>
     <a href="#" className='logo'>EventFlow</a>
     <a href="http://localhost:3000/">Home</a>
+    <a href="#">Weather</a>
     <a href="#">About</a>
     <a href="#">Logout</a>
   </nav>
