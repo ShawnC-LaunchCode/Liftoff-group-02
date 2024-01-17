@@ -8,7 +8,6 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 import withCredentials from '../components/withCredentials.js';
@@ -23,7 +22,6 @@ function HomePage(){
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [createEvent, setCreateEvent] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
@@ -99,39 +97,41 @@ try {
     openModal();
   };
 
-  const handleUserChange = (event, {value}) => {
-    setUser(value);
-    loadEventsByUser(value);
+
+  const getLoggedInUser = async() => {
+    try {
+      const response = await axios.get('http://localhost:8080/sessions/user', withCredentials());
+      setUser(response.data.username);
+      loadEventsByUser(response.data.username);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   useEffect(() => {
+    getLoggedInUser();
     loadEventsByUser(user);
     userlist();
   }, []);
 
   return (
     <div className="App">
-      <div className='container'>
-      <div className = "titleBlock">EventFlow</div>
-      </div>
-      <div>
-      <Logout />
-    </div>
+      <nav>
+    <a href="#" className='logo'>EventFlow</a>
+    <a href="http://localhost:3000/">Home</a>
+    <a href="#">Weather</a>
+    <a href="#">About</a>
+    <a href="#">Logout</a>
+  </nav>
+  <br/>
     <div>
-        <h3>Input your city for the weather today!</h3>
+        <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
+        <h3 style={{textAlign: 'center'}}>Input your city for the weather today!</h3>
+        <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <WeatherAPI />
+        </div>
     </div>
-    <label>Logged in as?</label>
-    <Dropdown
-    id = 'userDropdown'
-    placeholder='Select User'
-    fluid
-    search
-    selection
-    options={allUsers}
-    onChange={handleUserChange}
-    value = {user}
-  />
+
               <div>
                 <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
 

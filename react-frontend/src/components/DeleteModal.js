@@ -22,12 +22,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
         const [allEvents, setAllEvents] = useState([]);
         const [error, setError] = useState(null);
         const [loading, setLoading] = useState(true);
-        const [isHovered, setHovered] = useState(false);
         const [isEditing, setEditing] = useState(false);
-
-        const handleHover = (hoverState) => {
-          setHovered(hoverState);
-        };
 
         const handleEditEvent = async() => {
           try {
@@ -73,7 +68,7 @@ const DeleteModal = ({ isOpen, selectedEvent, onClose }) => {
       {isOpen && (
         <div className="modal-overlay" onClick={() => {onClose(); setEditing(false)}}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className= 'close' style= {{color: isHovered ? 'crimson' : 'black'}} onClick={() => {onClose(); handleHover(false); setEditing(false);}} onMouseOver={() => handleHover(true)} onMouseOut={() => handleHover(false)}>
+            <span className= 'close' onClick={() => {onClose(); setEditing(false);}} >
               &times;
             </span>
             <br/>

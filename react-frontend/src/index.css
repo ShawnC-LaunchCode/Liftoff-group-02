@@ -12,25 +12,35 @@ code {
     monospace;
 }
 
-.container{
+
+nav {
+  background: linear-gradient( navy, #001f3f); /* Gradient from navy to a darker shade */
+  color: white;
+  padding: 15px 20px;
   text-align: center;
 }
 
-.titleBlock {
-  position: relative;
+.logo {
+  color: #ffcc00; /* Yellow color for the logo */
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
   display: inline-block;
-  padding: 15px 70px;
-  border: 5px solid navy;
-  color: navy;
-  font-size: 30px;
-  font-family: arial;
-  background-image: linear-gradient(navy,navy);
-  background-position: 0% 0%;
-  background-repeat: no-repeat;
-  background-size: 0% 100%;
-  transition: background-position .5s, background-size .5s, color .5s;
+  margin: 0 auto; /* Center the logo */
 }
-.titleBlock:hover {
-  background-size: 100% 100%;
-  color: #fff;
+
+nav a {
+  text-decoration: none;
+  color: white;
+  margin: 0 25px; /* Increased margin for spacing */
+  font-size: 18px;
+  font-weight: bold;
+}
+
+nav a:hover:not(.logo) {
+  border-bottom: 2px solid white;
+}
+
+.logo:hover {
+  color: #ffcc00; /* Keep the logo color unchanged on hover */
 }
