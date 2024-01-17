@@ -22,7 +22,6 @@ function HomePage(){
   const [isDelModalOpen, setDelModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [createEvent, setCreateEvent] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
@@ -98,12 +97,19 @@ try {
     openModal();
   };
 
-  const handleUserChange = (event, {value}) => {
-    setUser(value);
-    loadEventsByUser(value);
+
+  const getLoggedInUser = async() => {
+    try {
+      const response = await axios.get('http://localhost:8080/sessions/user', withCredentials());
+      setUser(response.data.username);
+      loadEventsByUser(response.data.username);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   useEffect(() => {
+    getLoggedInUser();
     loadEventsByUser(user);
     userlist();
   }, []);
@@ -114,20 +120,14 @@ try {
       <div className = "titleBlock">EventFlow</div>
       </div>
     <div>
-        <h3>Input your city for the weather today!</h3>
+        <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
+        <br/>
+        <h3 style={{textAlign: 'center'}}>Input your city for the weather today!</h3>
+        <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <WeatherAPI />
+        </div>
     </div>
-    <label>Logged in as?</label>
-    <Dropdown
-    id = 'userDropdown'
-    placeholder='Select User'
-    fluid
-    search
-    selection
-    options={allUsers}
-    onChange={handleUserChange}
-    value = {user}
-  />
+
               <div>
                 <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
 
