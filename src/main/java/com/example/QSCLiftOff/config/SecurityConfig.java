@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +56,7 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/*")
                         .ignoringRequestMatchers("/sessions/*")
                         .ignoringRequestMatchers(("/handlelogin"))
+                        .ignoringRequestMatchers("/logout")
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
@@ -63,12 +65,23 @@ public class SecurityConfig {
                         .successHandler(((request, response, authentication) -> response.setStatus(HttpStatus.NO_CONTENT.value())))
                         .permitAll()
                 )
+                .logout(logout -> logout.permitAll())
+//                .logout(logout -> logout
+////                        .logoutUrl("/perform_logout")
+//                                .logoutSuccessUrl("success/perform_logout")
+//                        .logoutRequestMatcher(new AntPathRequestMatcher("/perform_logout")).permitAll()
+//                        .invalidateHttpSession(true)
+//                        .deleteCookies("JSESSIONID")
+//
+//
+//                )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/createResource").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .logout(logout -> logout.permitAll());
+                        .requestMatchers("/logout").permitAll()
+                        .anyRequest().authenticated()
+                );
+
 
 
 

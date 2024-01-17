@@ -14,6 +14,7 @@ import axios from 'axios';
 import withCredentials from '../components/withCredentials.js';
 import 'semantic-ui-css/semantic.min.css';
 import '../index.css';
+import Logout from '../components/logout.js';
 
 
 
@@ -116,6 +117,9 @@ try {
     <div>
         <h3>Input your city for the weather today!</h3>
         <WeatherAPI />
+    </div>
+    <div>
+      <Logout />
     </div>
     <label>Logged in as?</label>
     <Dropdown
