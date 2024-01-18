@@ -73,6 +73,7 @@ try {
 
   const closeDelModal = () => {
     setDelModalOpen(false);
+    loadEventsByUser(user);
   };
 
   const openWeatherModal = () => {
@@ -81,6 +82,7 @@ try {
 
   const closeWeatherModal = () => {
     setWeatherModalOpen(false);
+    loadEventsByUser(user);
   };
 
   const handleEventClick = (event) => {
