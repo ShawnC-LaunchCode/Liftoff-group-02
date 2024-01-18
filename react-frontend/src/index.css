@@ -53,7 +53,7 @@ nav a:hover:not(.logo, .aboutA) {
   color: black;
 }
 .aboutA:hover{
-  color: black;
+  color: grey;
   border-bottom: 2px solid black;
 }
 

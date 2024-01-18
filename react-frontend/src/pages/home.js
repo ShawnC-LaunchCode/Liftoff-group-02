@@ -14,12 +14,14 @@ import withCredentials from '../components/withCredentials.js';
 import 'semantic-ui-css/semantic.min.css';
 import '../index.css';
 import Logout from '../components/logout.js';
+import WeatherModal from '../components/WeatherModal.js';
 
 
 
 function HomePage(){
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
+  const [isWeatherModalOpen, setWeatherModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -71,7 +73,14 @@ try {
 
   const closeDelModal = () => {
     setDelModalOpen(false);
-    loadEventsByUser(user);
+  };
+
+  const openWeatherModal = () => {
+    setWeatherModalOpen(true);
+  };
+
+  const closeWeatherModal = () => {
+    setWeatherModalOpen(false);
   };
 
   const handleEventClick = (event) => {
@@ -117,26 +126,23 @@ try {
   return (
     <div className="App">
       <nav>
-    <a href="" className='logo'>EventFlow</a>
+    <a className='logo'>EventFlow</a>
     <a href="http://localhost:3000/">Home</a>
-    <a href="">Weather</a>
+    <a onClick={openWeatherModal}>Weather</a>
     <a href="http://localhost:3000/about">About</a>
     <Logout/>
   </nav>
   <br/>
     <div>
         <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
-        <h3 style={{textAlign: 'center'}}>Input your city for the weather today!</h3>
-        <div style = {{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <WeatherAPI />
-        </div>
     </div>
 
               <div>
                 <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
-
+                <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
+                <WeatherModal isOpen={isWeatherModalOpen} onClose={closeWeatherModal}/>
               </div>
-              <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
+              
 
       <Calendar
         localizer={localizer}

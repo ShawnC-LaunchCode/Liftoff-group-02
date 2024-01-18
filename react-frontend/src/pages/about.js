@@ -28,8 +28,8 @@ function AboutPage(){
   <br/>
         <nav className='aboutNav'>
             
-            <a className='aboutA' onClick={handleRiley}>Riley Neuville</a>
-            <a className='aboutA' onClick={handleJacob}>Jacob Kellog</a>
+            <a className='aboutA' onClick={handleRiley} style={member ? {borderBottom: '2px solid black'}: {borderBottom: 'transparent'}}>Riley Neuville</a>
+            <a className='aboutA' onClick={handleJacob} style={member ? {borderBottom: 'transparent'}: {borderBottom: '2px solid black'}}>Jacob Kellog</a>
         </nav>
 <br/>
 <br/>
