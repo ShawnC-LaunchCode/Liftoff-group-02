@@ -35,6 +35,9 @@ function LoginPage(){
 
   return (
     <div>
+      <nav>
+        <a className='logo'>EventFlow</a>
+      </nav>
       <label>Username:</label>
       <input type="text" name="username" value={loginData.username} onChange={handleInputChange} />
 

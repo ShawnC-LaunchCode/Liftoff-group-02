@@ -8,21 +8,22 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import { Dropdown } from 'semantic-ui-react'
 import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 import withCredentials from '../components/withCredentials.js';
 import 'semantic-ui-css/semantic.min.css';
 import '../index.css';
+import Logout from '../components/logout.js';
+import WeatherModal from '../components/WeatherModal.js';
 
 
 
 function HomePage(){
   const [isModalOpen, setModalOpen] = useState(false);
   const [isDelModalOpen, setDelModalOpen] = useState(false);
+  const [isWeatherModalOpen, setWeatherModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [createEvent, setCreateEvent] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
@@ -75,6 +76,15 @@ try {
     loadEventsByUser(user);
   };
 
+  const openWeatherModal = () => {
+    setWeatherModalOpen(true);
+  };
+
+  const closeWeatherModal = () => {
+    setWeatherModalOpen(false);
+    loadEventsByUser(user);
+  };
+
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     console.log(event);
@@ -98,41 +108,43 @@ try {
     openModal();
   };
 
-  const handleUserChange = (event, {value}) => {
-    setUser(value);
-    loadEventsByUser(value);
+
+  const getLoggedInUser = async() => {
+    try {
+      const response = await axios.get('http://localhost:8080/sessions/user', withCredentials());
+      setUser(response.data.username);
+      loadEventsByUser(response.data.username);
+    } catch (error) {
+      setError(error.message);
+    }
   }
 
   useEffect(() => {
+    getLoggedInUser();
     loadEventsByUser(user);
     userlist();
   }, []);
 
   return (
     <div className="App">
-      <div className='container'>
-      <div className = "titleBlock">EventFlow</div>
-      </div>
+      <nav>
+    <a className='logo'>EventFlow</a>
+    <a href="http://localhost:3000/">Home</a>
+    <a onClick={openWeatherModal}>Weather</a>
+    <a href="http://localhost:3000/about">About</a>
+    <Logout/>
+  </nav>
+  <br/>
     <div>
-        <h3>Input your city for the weather today!</h3>
-        <WeatherAPI />
+        <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
     </div>
-    <label>Logged in as?</label>
-    <Dropdown
-    id = 'userDropdown'
-    placeholder='Select User'
-    fluid
-    search
-    selection
-    options={allUsers}
-    onChange={handleUserChange}
-    value = {user}
-  />
+
               <div>
                 <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
-
+                <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
+                <WeatherModal isOpen={isWeatherModalOpen} onClose={closeWeatherModal}/>
               </div>
-              <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
+              
 
       <Calendar
         localizer={localizer}

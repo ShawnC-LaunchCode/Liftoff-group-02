@@ -8,6 +8,7 @@ import {
 import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import RegistrationPage from "./pages/registration";
+import AboutPage from './pages/about';
 import WeatherAPI from './components/WeatherAPI';
 
 function App() {
@@ -33,6 +34,11 @@ function App() {
                     //temp weather path
                     path='/weather'
                     element={<WeatherAPI />}
+                />
+
+                <Route
+                    path="/about"
+                    element={<AboutPage />}
                 />
             </Routes>
         </Router>
