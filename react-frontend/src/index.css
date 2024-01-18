@@ -37,10 +37,33 @@ nav a {
   font-weight: bold;
 }
 
-nav a:hover:not(.logo) {
+nav a:hover:not(.logo, .aboutA) {
   border-bottom: 2px solid white;
 }
 
 .logo:hover {
   color: #ffcc00; /* Keep the logo color unchanged on hover */
+}
+
+.aboutNav{
+  background: transparent;
+}
+
+.aboutA{
+  color: black;
+}
+.aboutA:hover{
+  color: black;
+  border-bottom: 2px solid black;
+}
+
+.wrapper{
+  position: relative;
+  text-align: center;
+  justify-content: center;
+}
+
+.riley, .jacob{
+  position: absolute;
+  float: none;
 }
