@@ -31,6 +31,9 @@ const handleRegistration = async () => {
 
 return (
   <div>
+    <nav>
+        <a className='logo'>EventFlow</a>
+      </nav>
     <label>Username:</label>
     <input type="text" name="username" value={userData.username} onChange={handleInputChange} />
 
