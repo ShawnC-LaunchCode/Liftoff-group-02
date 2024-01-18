@@ -117,9 +117,9 @@ try {
   return (
     <div className="App">
       <nav>
-    <a href="#" className='logo'>EventFlow</a>
+    <a href="" className='logo'>EventFlow</a>
     <a href="http://localhost:3000/">Home</a>
-    <a href="#">Weather</a>
+    <a href="">Weather</a>
     <a href="http://localhost:3000/about">About</a>
     <Logout/>
   </nav>
