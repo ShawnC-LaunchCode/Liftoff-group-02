@@ -1,5 +1,3 @@
-import Modal from '../components/Modal.js';
-import DeleteModal from '../components/DeleteModal.js';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -8,25 +6,24 @@ import getDay from "date-fns/getDay";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import WeatherAPI from '../components/WeatherAPI';
 import axios from 'axios';
 import withCredentials from '../components/withCredentials.js';
 import 'semantic-ui-css/semantic.min.css';
 import '../index.css';
 import Logout from '../components/logout.js';
 import WeatherModal from '../components/WeatherModal.js';
+import { Dropdown } from 'semantic-ui-react'
 
 
 
-function HomePage(){
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [isDelModalOpen, setDelModalOpen] = useState(false);
+function FriendsPage(){
   const [isWeatherModalOpen, setWeatherModalOpen] = useState(false);
   const [allEvents, setAllEvents] = useState([]);
   const [error, setError] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [createEvent, setCreateEvent] = useState(null);
   const [allUsers, setAllUsers] = useState([]);
+  const [userView, setUserView] = useState(null);
   const [user, setUser] = useState(null);
 
   const loadEventsByUser = async(user) => {
@@ -51,30 +48,13 @@ try {
     };
     userArray.push(keyValueObject);
   }
-      setAllUsers(userArray);
+      setAllUsers(userArray.filter(item => item.value !== user ));
     } catch (error) {
       setError(error.message);
     }
 };
 
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-    loadEventsByUser(user);
-  };
-
-  const openDelModal = () => {
-    setDelModalOpen(true);
-  };
-
-  const closeDelModal = () => {
-    setDelModalOpen(false);
-    loadEventsByUser(user);
-  };
 
   const openWeatherModal = () => {
     setWeatherModalOpen(true);
@@ -82,14 +62,9 @@ try {
 
   const closeWeatherModal = () => {
     setWeatherModalOpen(false);
-    loadEventsByUser(user);
+    loadEventsByUser(userView);
   };
 
-  const handleEventClick = (event) => {
-    setSelectedEvent(event);
-    console.log(event);
-    openDelModal();
-  };
   
   const locales = {
     "en-US": require("date-fns/locale/en-US")
@@ -103,26 +78,27 @@ try {
     locales
   });
 
-  const handleSelectSlot = (info) => {
-    setCreateEvent(info);
-    openModal();
-  };
+  const handleUserChange = (event, {value})=>{
+    setUserView(value);
+    loadEventsByUser(value);
+  }
 
 
   const getLoggedInUser = async() => {
     try {
       const response = await axios.get('http://localhost:8080/sessions/user', withCredentials());
       setUser(response.data.username);
-      loadEventsByUser(response.data.username);
     } catch (error) {
       setError(error.message);
     }
   }
-
+  
   useEffect(() => {
-    getLoggedInUser();
-    loadEventsByUser(user);
-    userlist();
+    const fetchData = async()=>{
+        await getLoggedInUser();
+        userlist();
+    }
+    fetchData();
   }, [user]);
 
   return (
@@ -137,12 +113,21 @@ try {
   </nav>
   <br/>
     <div>
-        <h3 style={{textAlign: 'center'}}>Welcome to your homepage {user}!</h3>
+        <h3 style={{textAlign: 'center'}}>Welcome to your friends page {user}!</h3>
+        <label>Which calendar would you like to view?</label>
+    <Dropdown
+    id = 'userDropdown'
+    placeholder='Select User'
+    fluid
+    search
+    selection
+    options={allUsers}
+    onChange={handleUserChange}
+    value = {userView}
+  />
     </div>
 
               <div>
-                <Modal isOpen={isModalOpen} createEvent={createEvent} loggedInUser={user} onClose={closeModal} />
-                <DeleteModal isOpen={isDelModalOpen} selectedEvent={selectedEvent} onClose={closeDelModal}/>
                 <WeatherModal isOpen={isWeatherModalOpen} onClose={closeWeatherModal}/>
               </div>
               
@@ -157,8 +142,6 @@ try {
           return new Date(event.end);
         }}
         selectable={true}
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={handleEventClick}
         style={{ height: 500, margin: "50px" }}
         
       />
@@ -167,4 +150,4 @@ try {
   );
 }
 
-export default HomePage;
+export default FriendsPage;

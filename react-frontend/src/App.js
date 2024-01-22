@@ -9,6 +9,7 @@ import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import RegistrationPage from "./pages/registration";
 import AboutPage from './pages/about';
+import FriendsPage from './pages/friends';
 import WeatherAPI from './components/WeatherAPI';
 
 function App() {
@@ -39,6 +40,11 @@ function App() {
                 <Route
                     path="/about"
                     element={<AboutPage />}
+                />
+
+                <Route
+                    path="/friends"
+                    element={<FriendsPage />}
                 />
             </Routes>
         </Router>

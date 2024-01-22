@@ -31,6 +31,7 @@ function AboutPage(){
       <nav>
     <a href="#" className='logo'>EventFlow</a>
     <a href="http://localhost:3000/">Home</a>
+    <a href="http://localhost:3000/friends">Friends</a>
     <a onClick={openWeatherModal}>Weather</a>
     <a href="http://localhost:3000/about">About</a>
     <Logout/>
